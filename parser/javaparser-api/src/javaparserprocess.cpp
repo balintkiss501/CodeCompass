@@ -46,7 +46,9 @@ JavaParserProcess::JavaParserProcess()
     auto port = std::to_string(getSocketPort(_initSockedFd));
     std::vector<const char*> execArguments {
       "java",
-      "-Djava.util.logging.config.class=parser.LogConfigurator",
+      // Uncomment line below for remote debugging. Process suspends until it's connected with a Java debugger on address 5005.
+      //"-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005",
+      "-Djava.util.logging.config.class=parser.util.LogConfigurator",
       logLevelOpt.c_str(),
       "parser.JavaParserServiceImpl",
       port.c_str(),

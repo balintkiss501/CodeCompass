@@ -105,7 +105,8 @@ CC_EXTERNAL_JAVA_LIBS=\
     $(abs_srcdir)/lib/java/guava-15.0.jar \
     $(abs_srcdir)/lib/java/jackson-annotations-2.2.3.jar \
     $(abs_srcdir)/lib/java/jackson-core-2.2.3.jar \
-    $(abs_srcdir)/lib/java/jackson-databind-2.2.3.jar
+    $(abs_srcdir)/lib/java/jackson-databind-2.2.3.jar \
+    $(abs_srcdir)/lib/java/bcel-6.0.jar
 JAVA_BUILD_CP=$(shell echo "$(CC_EXTERNAL_JAVA_LIBS)" | sed -e 's/[[:space:]]\{1,\}/:/g')
 
 javalibdir=$(datadir)/$(PACKAGE)/java

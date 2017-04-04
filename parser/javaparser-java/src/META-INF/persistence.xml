@@ -4,24 +4,24 @@
 
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-    <class>parser.File</class>
-    <class>parser.FileContent</class>
-    <class>parser.JavaAstNode</class>
-    <class>parser.Project</class>
-    <class>parser.Option</class>
-    <class>parser.BuildSource</class>
-    <class>parser.BuildTarget</class>
-    <class>parser.BuildAction</class>
-    <class>parser.BuildParameter</class>
-    <class>parser.BuildLog</class>
-    <class>parser.JavaType</class>
-    <class>parser.JavaMember</class>
-    <class>parser.JavaEnumConstant</class>
-    <class>parser.JavaVariable</class>
-    <class>parser.JavaFunction</class>
-    <class>parser.JavaImport</class>
-    <class>parser.JavaDocComment</class>
-    <class>parser.JavaAnnotation</class>
+    <class>parser.entity.File</class>
+    <class>parser.entity.FileContent</class>
+    <class>parser.entity.JavaAstNode</class>
+    <class>parser.entity.Project</class>
+    <class>parser.entity.Option</class>
+    <class>parser.entity.BuildSource</class>
+    <class>parser.entity.BuildTarget</class>
+    <class>parser.entity.BuildAction</class>
+    <class>parser.entity.BuildParameter</class>
+    <class>parser.entity.BuildLog</class>
+    <class>parser.entity.JavaType</class>
+    <class>parser.entity.JavaMember</class>
+    <class>parser.entity.JavaEnumConstant</class>
+    <class>parser.entity.JavaVariable</class>
+    <class>parser.entity.JavaFunction</class>
+    <class>parser.entity.JavaImport</class>
+    <class>parser.entity.JavaDocComment</class>
+    <class>parser.entity.JavaAnnotation</class>
 
     <properties>
       <!-- <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBCDriver" /> -->
