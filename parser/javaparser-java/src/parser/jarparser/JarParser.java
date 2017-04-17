@@ -27,11 +27,10 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 // FIXME: persisted Jar files and package hierarchy won't have hashed ids
-
 /**
  * Class for parsing classes inside JAR file.
  * It persist the JAR file as an openable directory in the database,
- * forms directory structure from package hierarchy, decompiles all class files,
+ * forms directory structure from package hierarchy, recovers all class files,
  * then persist them into database.
  */
 public class JarParser {
@@ -96,7 +95,7 @@ public class JarParser {
       em.flush();
       em.getTransaction().commit();
 
-      // Traverse JAR file while decompiling and parsing classes inside it
+      // Traverse JAR file while parsing classes inside it
       traverseJar(absoluteJarPath);
     }
   }
@@ -113,7 +112,7 @@ public class JarParser {
         JarEntry entry = entries.nextElement();
 
         if (!entry.isDirectory() && entry.getName().endsWith(".class")) {
-          decompileAndPersistClass(entry);
+          parseClass(entry);
         }
       }
 
@@ -123,12 +122,12 @@ public class JarParser {
   }
 
   /**
-   * Decompile class and persist it into database. This also starts the parsing and building of AST tree
-   * from the decompiled source.
+   * Parse class and persist it into database. This also starts the parsing and building of AST tree
+   * from the recovered source.
    *
    * @param entry
    */
-  private void decompileAndPersistClass(final JarEntry entry) {
+  private void parseClass(final JarEntry entry) {
     final String[] fileparts = entry.getName().split("/");
     final String classFilename = fileparts[fileparts.length - 1];
 
@@ -144,8 +143,8 @@ public class JarParser {
     if (classFile == null) {
       try {
         JavaClass javaClass = new ClassParser(absoluteJarPath, entry.getName()).parse();
-        final char[] decompiledSource = new DecompileVisitor(javaClass).getDecompiledCode();
-        parseDecompiledSource(classParentPath, classFilename, decompiledSource);
+        final char[] disassembledSource = new DisassembleVisitor(javaClass).getDecompiledCode();
+        parseRecoveredSource(classParentPath, classFilename, disassembledSource);
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -153,16 +152,16 @@ public class JarParser {
   }
 
   /**
-   * Build AST from decompiled source.
+   * Build AST from recovered source.
    *
    * @param classParentPath
    * @param filename
-   * @param decompiledSource
+   * @param source
    */
-  private void parseDecompiledSource(
+  private void parseRecoveredSource(
           final String classParentPath,
           final String filename,
-          final char[] decompiledSource) {
+          final char[] source) {
     ASTParser astParser = ASTParser.newParser(AST.JLS4);
 
     String[] encodings = new String[sourcepath.length];
@@ -170,7 +169,7 @@ public class JarParser {
       encodings[i] = "UTF-8";
     }
 
-    astParser.setSource(decompiledSource);
+    astParser.setSource(source);
     Map<?, ?> options = JavaCore.getOptions();
     Common.applySourceLevel(ap.getSourceLevel(), options);
     astParser.setCompilerOptions(options);
@@ -195,7 +194,7 @@ public class JarParser {
                 ph,
                 classParentPath,
                 filename,
-                decompiledSource,
+                source,
                 timestamp,
                 null,
                 true));

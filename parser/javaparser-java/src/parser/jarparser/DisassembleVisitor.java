@@ -6,12 +6,12 @@ import org.apache.bcel.classfile.EmptyVisitor;
 import org.apache.bcel.generic.*;
 
 /**
- * Decompiler visitor that uses Apache Byte Code Engineering library for decompilation.
- * This does partial decompilation, as in translates the class structure with declared fields
+ * Disassembler visitor that uses Apache Byte Code Engineering library for disassembling bytecode.
+ * This does partial decompilation, as it translates the class structure with declared fields
  * and methods to Java source, but instructions inside methods are translated as commented out
- * JVM Assembly mnenomics.
+ * JVM Assembly mnemomics.
  */
-public class DecompileVisitor extends EmptyVisitor {
+public class DisassembleVisitor extends EmptyVisitor {
 
   private final static String NOTICE_TEXT =
           "/**\n" +
@@ -26,7 +26,7 @@ public class DecompileVisitor extends EmptyVisitor {
   private ConstantPool constantPool;
   private StringBuilder codePrintBuilder;
 
-  public DecompileVisitor(final JavaClass javaClass) {
+  public DisassembleVisitor(final JavaClass javaClass) {
     this.codePrintBuilder = new StringBuilder();
     this.currentClass = javaClass;
     this.constantPool = javaClass.getConstantPool();
@@ -56,7 +56,7 @@ public class DecompileVisitor extends EmptyVisitor {
       // Superclass name
       if (!javaClass.getSuperclassName().equals("java.lang.Object")) {
         codePrintBuilder.append(" extends ")
-                .append(javaClass.getSuperclassName().replaceAll(STRIP_PACKAGE_NAMES_REGEXP, ""));
+                .append(javaClass.getSuperclassName());
       }
 
       // Interface names
@@ -64,7 +64,7 @@ public class DecompileVisitor extends EmptyVisitor {
       if (0 < interfaceNames.length) {
         codePrintBuilder.append(" implements ");
         for (String interfaceName : interfaceNames) {
-          codePrintBuilder.append(interfaceName.replaceAll(STRIP_PACKAGE_NAMES_REGEXP, ""));
+          codePrintBuilder.append(interfaceName);
         }
       }
       codePrintBuilder.append(" {\n");
