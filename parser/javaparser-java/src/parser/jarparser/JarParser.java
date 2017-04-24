@@ -201,8 +201,6 @@ public class JarParser {
 
         em.flush();
         em.getTransaction().commit();
-
-        em.close();
       } catch (ParseException ex) {
         em.getTransaction().rollback();
         em.close();

@@ -23,7 +23,7 @@ JAVAPARSER_SRC=\
 	$(JAVAPARSERBASEDIR)/src/parser/entity/Option.java \
 	$(JAVAPARSERBASEDIR)/src/parser/entity/Project.java \
 	$(JAVAPARSERBASEDIR)/src/parser/exception/ParseException.java \
-	$(JAVAPARSERBASEDIR)/src/parser/jarparser/DecompileVisitor.java \
+	$(JAVAPARSERBASEDIR)/src/parser/jarparser/DisassembleVisitor.java \
 	$(JAVAPARSERBASEDIR)/src/parser/jarparser/JarParser.java \
 	$(JAVAPARSERBASEDIR)/src/parser/sourceparser/ArgParser.java \
 	$(JAVAPARSERBASEDIR)/src/parser/sourceparser/AstVisitor.java \
